@@ -1,0 +1,41 @@
+<% wrap_layout :inner do %>
+    <% content_for :sidebar do %>
+      <div class="docs-sidebar hidden-print affix-top" role="complementary">
+        <ul class="nav docs-sidenav">
+          <li<%= sidebar_current("docs-home") %>>
+            <a href="/docs/providers/index.html">All Providers</a>
+          </li>
+  
+          <li<%= sidebar_current("docs-limelight-index") %>>
+            <a href="/docs/providers/limelight/index.html">Limelight Networks Provider</a>
+          </li>
+  
+          <li<%= sidebar_current("docs-limelight-data-source") %>>
+              <a href="#">Data Sources</a>
+              <ul class="nav nav-visible">
+                  <li<%= sidebar_current("docs-limelight-data-source-ip-ranges") %>>
+                      <a href="/docs/providers/limelight/d/ip_ranges.html">limelight_ip_ranges</a>
+                  </li>
+              </ul>
+          </li>
+  
+          <li<%= sidebar_current("docs-limelight-resource") %>>
+            <a href="#">Resources</a>
+            <ul class="nav nav-visible">
+                <li<%= sidebar_current("docs-limelight-resource-delivery") %>>
+                  <a href="/docs/providers/limelight/r/delivery.html">limelight_delivery</a>
+                </li>
+                <li<%= sidebar_current("docs-limelight-resource-edgefunction") %>>
+                  <a href="/docs/providers/limelight/r/edgefunction.html">limelight_edgefunction</a>
+                </li>
+                <li<%= sidebar_current("docs-limelight-resource-edgefunction-alias") %>>
+                  <a href="/docs/providers/limelight/r/edgefunction_alias.html">limelight_edgefunction_alias</a>
+                </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    <% end %>
+  
+    <%= yield %>
+    <% end %>
