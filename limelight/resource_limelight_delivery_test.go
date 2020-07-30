@@ -27,10 +27,10 @@ func TestAccResourceLimelightDelivery_minimal(t *testing.T) {
 					resource.TestCheckResourceAttrSet(testResourceName, "version_number"),
 					resource.TestCheckResourceAttr(testResourceName, "shortname", getShortname()),
 					resource.TestCheckResourceAttr(testResourceName, "published_hostname",
-						fmt.Sprintf("terraform-test.%s.s.llnwi.net", getShortname())),
+						fmt.Sprintf("terraform-test-minimal.%s.s.llnwi.net", getShortname())),
 					resource.TestCheckResourceAttr(testResourceName, "published_path", "/"),
 					resource.TestCheckResourceAttr(testResourceName, "service_profile", "LLNW-Generic"),
-					resource.TestCheckResourceAttr(testResourceName, "source_hostname", "dummy-origin.llnw.net"),
+					resource.TestCheckResourceAttr(testResourceName, "source_hostname", "dummy-origin-minimal.llnw.net"),
 					resource.TestCheckResourceAttr(testResourceName, "source_path", "/"),
 					resource.TestCheckResourceAttr(testResourceName, "protocol_set.0.published_protocol", "https"),
 					resource.TestCheckResourceAttr(testResourceName, "protocol_set.0.source_protocol", "https"),
@@ -85,6 +85,9 @@ func TestAccResourceLimelightDelivery_update(t *testing.T) {
 					resource.TestCheckResourceAttr(testResourceName, "protocol_set.0.published_protocol", "http"),
 					resource.TestCheckResourceAttr(testResourceName, "protocol_set.0.source_protocol", "http"),
 					resource.TestCheckResourceAttr(testResourceName, "protocol_set.0.option.#", "2"),
+					resource.TestCheckResourceAttr(testResourceName, "protocol_set.1.published_protocol", "https"),
+					resource.TestCheckResourceAttr(testResourceName, "protocol_set.1.source_protocol", "https"),
+					resource.TestCheckResourceAttr(testResourceName, "protocol_set.1.option.#", "2"),
 				),
 			},
 		},
@@ -171,9 +174,9 @@ func testAccLimelightDeliveryMinimalTemplate() string {
 	return fmt.Sprintf(`
 resource "limelight_delivery" "test_delivery" {
 	shortname          = "%s"
-	published_hostname = "terraform-test.%s.s.llnwi.net"
+	published_hostname = "terraform-test-minimal.%s.s.llnwi.net"
 	published_path     = "/"
-	source_hostname    = "dummy-origin.llnw.net"
+	source_hostname    = "dummy-origin-minimal.llnw.net"
 	source_path        = "/"
 	
 	protocol_set {
@@ -218,6 +221,19 @@ resource "limelight_delivery" "test_delivery" {
 		option {
 			name       = "reply_send_header"
 			parameters = ["X-LLNW-Test", "123"]
+		}
+		option {
+			name       = "genreply"
+			parameters = ["200"]
+		}
+	}
+
+	protocol_set {
+		published_protocol = "https"
+		source_protocol    = "https"
+		option {
+			name       = "reply_send_header"
+			parameters = ["X-LLNW-Test", "456"]
 		}
 		option {
 			name       = "genreply"
