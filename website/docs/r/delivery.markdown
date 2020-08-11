@@ -32,7 +32,7 @@ resource "limelight_delivery" "example_website" {
     }
     option {
       name       = "reply_send_header"
-      parameters = ["X-Delivered-By", "Limelight Networks"]
+      parameters = ["X-Delivered-By", "LLNW"]
     }
   }
 }
