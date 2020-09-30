@@ -145,7 +145,7 @@ func resourceLimelightDeliveryRead(d *schema.ResourceData, m interface{}) error 
 	deliveryServiceInstance, resp, err := c.GetDeliveryServiceInstance(d.Id())
 
 	if err != nil {
-		if resp.StatusCode == http.StatusNotFound {
+		if resp != nil && resp.StatusCode == http.StatusNotFound {
 			log.Printf("[INFO] Delivery configuration %s not found", d.Id())
 			d.SetId("")
 			return nil

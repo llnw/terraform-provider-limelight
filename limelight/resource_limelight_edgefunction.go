@@ -158,7 +158,7 @@ func resourceLimelightEdgeFunctionRead(d *schema.ResourceData, m interface{}) er
 	edgeFunction, resp, err := c.GetEdgeFunction(name, shortname)
 
 	if err != nil {
-		if resp.StatusCode == http.StatusNotFound {
+		if resp != nil && resp.StatusCode == http.StatusNotFound {
 			log.Printf("[INFO] EdgeFunction %s was not found", name)
 			d.SetId("")
 			return nil

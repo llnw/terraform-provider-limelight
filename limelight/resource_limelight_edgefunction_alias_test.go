@@ -117,7 +117,7 @@ func testAccLimelightEdgeFunctionAliasCheckDestroy(state *terraform.State) error
 
 		_, resp, err := client.GetEdgeFunctionAlias(fnName, shortname, aliasName)
 		if err != nil {
-			if resp.StatusCode == http.StatusNotFound {
+			if resp != nil && resp.StatusCode == http.StatusNotFound {
 				return nil
 			}
 			return fmt.Errorf("error retrieving EdgeFunction Alias with ID %s. Error: %v", resourceID, err)

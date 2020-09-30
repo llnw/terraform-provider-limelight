@@ -90,7 +90,7 @@ func resourceLimelightEdgeFunctionAliasRead(d *schema.ResourceData, m interface{
 	aliasResponse, resp, err := client.GetEdgeFunctionAlias(fnName, shortname, aliasName)
 
 	if err != nil {
-		if resp.StatusCode == http.StatusNotFound {
+		if resp != nil && resp.StatusCode == http.StatusNotFound {
 			log.Printf("[INFO] Alias %s for EdgeFunction %s was not found", aliasName, fnName)
 			d.SetId("")
 			return nil
