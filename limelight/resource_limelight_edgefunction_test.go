@@ -136,7 +136,7 @@ func testAccLimelightEdgeFunctionCheckDestroy(state *terraform.State, fnName str
 
 		_, resp, err := client.GetEdgeFunction(name, shortname)
 		if err != nil {
-			if resp.StatusCode == http.StatusNotFound {
+			if resp != nil && resp.StatusCode == http.StatusNotFound {
 				return nil
 			}
 			return fmt.Errorf("error retrieving EdgeFunction with ID %s. Error: %v", resourceID, err)

@@ -128,7 +128,7 @@ func testAccLimelightDeliveryCheckDestroy(state *terraform.State) error {
 		_, resp, err := client.GetDeliveryServiceInstance(resourceID)
 
 		if err != nil {
-			if resp.StatusCode == http.StatusNotFound {
+			if resp != nil && resp.StatusCode == http.StatusNotFound {
 				return nil
 			}
 			return fmt.Errorf("error retrieving delivery configuration with ID %s. Error: %v", resourceID, err)

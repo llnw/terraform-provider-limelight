@@ -135,7 +135,7 @@ func resourceLimelightRealtimeStreamingSlotRead(d *schema.ResourceData, m interf
 	realtimeStreamingSlot, resp, err := c.GetRealtimeStreamingSlot(slotID, shortname)
 
 	if err != nil {
-		if resp.StatusCode == http.StatusNotFound {
+		if resp != nil && resp.StatusCode == http.StatusNotFound {
 			log.Printf("[INFO] Realtime Streaming Slot %s not found", slotID)
 			d.SetId("")
 			return nil
@@ -193,7 +193,7 @@ func waitForLimelightRealtimeStreamingSlotProvision(d *schema.ResourceData, m in
 		Refresh: func() (interface{}, string, error) {
 
 			realtimeStreamingSlot, resp, err := client.GetRealtimeStreamingSlot(slotID, shortname)
-			if err != nil && resp.StatusCode == http.StatusNotFound {
+			if err != nil && resp != nil && resp.StatusCode == http.StatusNotFound {
 				d.Set("state", "NOT_FOUND")
 				return nil, "NOT_FOUND", err
 			}

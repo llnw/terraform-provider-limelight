@@ -94,7 +94,7 @@ func testAccLimelightRealtimeStreamingSlotCheckDestroy(state *terraform.State) e
 		_, resp, err := client.GetRealtimeStreamingSlot(slotID, shortname)
 
 		if err != nil {
-			if resp.StatusCode == http.StatusNotFound {
+			if resp != nil && resp.StatusCode == http.StatusNotFound {
 				return nil
 			}
 			return fmt.Errorf("error retrieving Realtime Streaming Slot with ID %s. Error: %v", resourceID, err)
@@ -131,7 +131,7 @@ func testAccLimelightRealtimeStreamingSlotExists(testResourceName string) resour
 		}
 
 		if resp.StatusCode != http.StatusOK {
-			return fmt.Errorf("rrror while checking if Realtime Streaming Slot %s exists. HTTP return code was %d", resourceID, resp.StatusCode)
+			return fmt.Errorf("error while checking if Realtime Streaming Slot %s exists. HTTP return code was %d", resourceID, resp.StatusCode)
 		}
 
 		if slot.Id == slotID {
