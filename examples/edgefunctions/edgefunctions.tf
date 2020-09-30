@@ -1,6 +1,27 @@
-provider "limelight" {}
+# Configure the Limelight Provider
+terraform {
+  required_providers {
+    limelight = {
+      source  = "llnw/limelight"
+      version = "~> 1.0.0"
+    }
+  }
+}
+
+provider "limelight" {
+  username = var.llnw_username
+  api_key  = var.llnw_api_key
+}
 
 provider "archive" {}
+
+variable "llnw_username" {
+  type = string
+}
+
+variable "llnw_api_key" {
+  type = string
+}
 
 variable "shortname" {
   type = string
@@ -10,12 +31,14 @@ variable "published_hostname" {
   type = string
 }
 
+# The archive file created from the directory containing your EdgeFunction code
 data "archive_file" "function_archive" {
   type        = "zip"
   source_dir  = "function"
   output_path = "function.zip"
 }
 
+# An EdgeFunction created from the zip archive above
 resource "limelight_edgefunction" "hello_world" {
   shortname        = var.shortname
   name             = "hello_world_terraform"
@@ -25,14 +48,15 @@ resource "limelight_edgefunction" "hello_world" {
   handler          = "hello_world.handler"
   runtime          = "python3"
   memory           = 256
-  timeout          = 2000
-  can_debug        = false
+  timeout          = 4000
+  can_debug        = true
   environment_variable {
     name  = "NAME"
     value = "World"
   }
 }
 
+# A CDN configuration to allow the EdgeFunction to be invoked over HTTPS
 resource "limelight_delivery" "edgefunction_cdn_config" {
   shortname          = var.shortname
   published_hostname = var.published_hostname

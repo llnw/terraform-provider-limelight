@@ -67,9 +67,8 @@ In addition to arguments listed above, the following attributes are exported:
 
 ## Importing
 
-An existing EdgeFunction can be [imported][docs-import] into this resource, via the following command:
-
-[docs-import]: /docs/import/index.html
+An existing EdgeFunction can be [imported](https://www.terraform.io/docs/import/index.html) into this resource, via the
+following command:
 
 ```
 terraform import limelight_edgefunction.my_func FUNCTION_ID
