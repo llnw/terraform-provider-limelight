@@ -234,7 +234,12 @@ func flattenOptions(expandedOptions []configuration.Option) []map[string]interfa
 		m["name"] = v.Name
 		params := make([]string, len(v.Parameters), len(v.Parameters))
 		for j, p := range v.Parameters {
-			params[j] = fmt.Sprintf("%v", p)
+			switch p.(type) {
+			case float64:
+				params[j] = fmt.Sprintf("%.0f", p)
+			default:
+				params[j] = fmt.Sprintf("%v", p)
+			}
 		}
 		m["parameters"] = params
 		flattenedOptions[i] = m
